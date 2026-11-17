@@ -8,7 +8,7 @@ A RuneLite plugin that locks chosen bank items so you can't lose their slot by a
 
 Right-click an item or placeholder in the bank and choose **Lock slot**. A padlock appears on the slot. Do the same and choose **Unlock slot** to remove the lock. Locks are saved per account. Turn on *Shift to lock* to show these options only while Shift is held.
 
-![The bank right-click menu with Lock slot](docs/lock-menu.png)
+<img src="docs/lock-menu.png" alt="The bank right-click menu with Lock slot" width="270">
 
 ## What a lock does
 
@@ -23,7 +23,7 @@ Everything happens client-side: the plugin only removes or cancels menu options.
 
 ## Settings
 
-![The Bank Slot Lock settings panel](docs/settings.png)
+<img src="docs/settings.png" alt="The Bank Slot Lock settings panel" width="230">
 
 ## Limits
 
