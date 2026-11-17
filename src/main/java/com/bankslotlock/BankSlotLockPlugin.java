@@ -25,14 +25,16 @@ import net.runelite.api.gameval.InterfaceID;
 import net.runelite.api.gameval.InventoryID;
 import net.runelite.api.gameval.VarbitID;
 import net.runelite.api.widgets.Widget;
+import net.runelite.client.chat.ChatMessageManager;
+import net.runelite.client.chat.QueuedMessage;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.events.RuneScapeProfileChanged;
 import net.runelite.client.game.ItemManager;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
-import net.runelite.client.ui.overlay.OverlayManager;
 import net.runelite.client.ui.JagexColors;
+import net.runelite.client.ui.overlay.OverlayManager;
 import net.runelite.client.util.ColorUtil;
 import net.runelite.client.util.Text;
 
@@ -60,6 +62,9 @@ public class BankSlotLockPlugin extends Plugin
 
 	@Inject
 	private ItemManager itemManager;
+
+	@Inject
+	private ChatMessageManager chatMessageManager;
 
 	@Inject
 	private OverlayManager overlayManager;
@@ -363,20 +368,26 @@ public class BankSlotLockPlugin extends Plugin
 		locked = next;
 		saveLocks();
 
-		if (config.chatMessage())
-		{
-			client.addChatMessage(ChatMessageType.GAMEMESSAGE, "",
-				name + (nowLocked ? " is now locked." : " is now unlocked."), null);
-		}
+		sendChat(name + (nowLocked ? " is now locked." : " is now unlocked."));
 	}
 
 	private void notifyBlocked(String message)
 	{
 		log.debug("Blocked: {}", message);
-		if (config.chatMessage())
+		sendChat(message);
+	}
+
+	private void sendChat(String message)
+	{
+		if (!config.chatMessage())
 		{
-			client.addChatMessage(ChatMessageType.GAMEMESSAGE, "", message, null);
+			return;
 		}
+
+		chatMessageManager.queue(QueuedMessage.builder()
+			.type(ChatMessageType.GAMEMESSAGE)
+			.runeLiteFormattedMessage(message)
+			.build());
 	}
 
 	private void loadLocks()

@@ -5,6 +5,7 @@ import net.runelite.client.config.Alpha;
 import net.runelite.client.config.Config;
 import net.runelite.client.config.ConfigGroup;
 import net.runelite.client.config.ConfigItem;
+import net.runelite.client.config.ConfigSection;
 import net.runelite.client.config.Range;
 import net.runelite.client.config.Units;
 
@@ -15,43 +16,24 @@ public interface BankSlotLockConfig extends Config
 	/** Per-account (RuneScape profile) key holding the comma-separated locked item IDs. */
 	String LOCKED_ITEMS_KEY = "lockedItems";
 
-	@ConfigItem(
-		keyName = "shiftToToggle",
-		name = "Require Shift",
-		description = "Only show Lock slot when Shift is held",
-		position = 1
+	@ConfigSection(
+		name = "Locked items",
+		description = "How locked items behave in the bank.",
+		position = 10
 	)
-	default boolean shiftToToggle()
-	{
-		return true;
-	}
+	String lockedSection = "locked";
 
-	@ConfigItem(
-		keyName = "hideRelease",
-		name = "Hide Release",
-		description = "Hide Release on locked placeholders",
-		position = 2
+	@ConfigSection(
+		name = "Lock icon",
+		description = "The padlock drawn on locked slots.",
+		position = 20
 	)
-	default boolean hideRelease()
-	{
-		return true;
-	}
-
-	@ConfigItem(
-		keyName = "blockWithdrawX",
-		name = "Hide Withdraw-X",
-		description = "Hide Withdraw-X on locked items when placeholders are off",
-		position = 3
-	)
-	default boolean blockWithdrawX()
-	{
-		return true;
-	}
+	String iconSection = "icon";
 
 	enum ShiftClickMode
 	{
 		PLACEHOLDER("Placeholder", "Placeholder"),
-		ALL_BUT_ONE("All-but-1", "Withdraw-All-but-1"),
+		ALL_BUT_ONE("Withdraw-All-but-1", "Withdraw-All-but-1"),
 		OFF("Off", null);
 
 		private final String label;
@@ -76,51 +58,6 @@ public interface BankSlotLockConfig extends Config
 		}
 	}
 
-	@ConfigItem(
-		keyName = "lockedShiftClick",
-		name = "Locked shift-click",
-		description = "What Shift-click Withdraw-All does on locked items when placeholders are off",
-		position = 4
-	)
-	default ShiftClickMode lockedShiftClick()
-	{
-		return ShiftClickMode.PLACEHOLDER;
-	}
-
-	@ConfigItem(
-		keyName = "chatMessage",
-		name = "Chat messages",
-		description = "Show a message when an action is blocked",
-		position = 5
-	)
-	default boolean chatMessage()
-	{
-		return true;
-	}
-
-	@ConfigItem(
-		keyName = "showIcon",
-		name = "Show lock icon",
-		description = "Show a padlock on locked slots",
-		position = 6
-	)
-	default boolean showIcon()
-	{
-		return true;
-	}
-
-	@Alpha
-	@ConfigItem(
-		keyName = "iconColor",
-		name = "Icon colour",
-		description = "Colour of the padlock",
-		position = 7
-	)
-	default Color iconColor()
-	{
-		return new Color(255, 200, 0, 220);
-	}
-
 	enum IconPosition
 	{
 		// No top left: the stack size is drawn there.
@@ -143,10 +80,94 @@ public interface BankSlotLockConfig extends Config
 	}
 
 	@ConfigItem(
+		keyName = "shiftToToggle",
+		name = "Shift to lock",
+		description = "Only show Lock slot and Unlock slot in the menu while Shift is held.",
+		position = 1
+	)
+	default boolean shiftToToggle()
+	{
+		return false;
+	}
+
+	@ConfigItem(
+		keyName = "chatMessage",
+		name = "Chat messages",
+		description = "Show a chat message when an item is locked or unlocked, or an action is blocked.",
+		position = 2
+	)
+	default boolean chatMessage()
+	{
+		return true;
+	}
+
+	@ConfigItem(
+		keyName = "hideRelease",
+		name = "Hide Release",
+		description = "Remove Release from the menu of locked placeholders.",
+		position = 1,
+		section = lockedSection
+	)
+	default boolean hideRelease()
+	{
+		return true;
+	}
+
+	@ConfigItem(
+		keyName = "blockWithdrawX",
+		name = "Hide Withdraw-X",
+		description = "Remove Withdraw-X from the menu of locked items when placeholders are off.",
+		position = 2,
+		section = lockedSection
+	)
+	default boolean blockWithdrawX()
+	{
+		return true;
+	}
+
+	@ConfigItem(
+		keyName = "lockedShiftClick",
+		name = "Shift-click",
+		description = "What Shift-click Withdraw-All does on locked items when placeholders are off.",
+		position = 3,
+		section = lockedSection
+	)
+	default ShiftClickMode lockedShiftClick()
+	{
+		return ShiftClickMode.PLACEHOLDER;
+	}
+
+	@ConfigItem(
+		keyName = "showIcon",
+		name = "Show icon",
+		description = "Draw a padlock on locked slots.",
+		position = 1,
+		section = iconSection
+	)
+	default boolean showIcon()
+	{
+		return true;
+	}
+
+	@Alpha
+	@ConfigItem(
+		keyName = "iconColor",
+		name = "Color",
+		description = "The color of the padlock.",
+		position = 2,
+		section = iconSection
+	)
+	default Color iconColor()
+	{
+		return new Color(255, 200, 0, 220);
+	}
+
+	@ConfigItem(
 		keyName = "iconPosition",
-		name = "Icon position",
-		description = "Corner of the slot to show the padlock in",
-		position = 8
+		name = "Position",
+		description = "Which corner of the slot the padlock is drawn in.",
+		position = 3,
+		section = iconSection
 	)
 	default IconPosition iconPosition()
 	{
@@ -157,9 +178,10 @@ public interface BankSlotLockConfig extends Config
 	@Units(Units.PERCENT)
 	@ConfigItem(
 		keyName = "iconScale",
-		name = "Icon size",
-		description = "Size of the padlock",
-		position = 9
+		name = "Size",
+		description = "The size of the padlock.",
+		position = 4,
+		section = iconSection
 	)
 	default int iconScale()
 	{
