@@ -97,9 +97,9 @@ class BankSlotLockOverlay extends WidgetItemOverlay
 
 			// Shackle
 			g.setStroke(shackleStroke);
-			g.drawArc(1, 0, 6, 7, 0, 180);
+			g.drawArc(1, 0, 7, 7, 0, 180);
 			g.drawLine(1, 3, 1, 5);
-			g.drawLine(7, 3, 7, 5);
+			g.drawLine(8, 3, 8, 5);
 			// Body
 			g.fillRect(0, 5, ICON_WIDTH, 6);
 		}
