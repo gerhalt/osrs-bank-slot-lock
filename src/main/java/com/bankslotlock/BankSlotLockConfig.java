@@ -82,7 +82,7 @@ public interface BankSlotLockConfig extends Config
 	@ConfigItem(
 		keyName = "shiftToToggle",
 		name = "Shift to lock",
-		description = "Only show Lock slot and Unlock slot in the menu while Shift is held.",
+		description = "Only show Lock-slot and Unlock-slot in the menu while Shift is held.",
 		position = 1
 	)
 	default boolean shiftToToggle()

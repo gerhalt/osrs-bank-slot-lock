@@ -46,8 +46,8 @@ import net.runelite.client.util.Text;
 )
 public class BankSlotLockPlugin extends Plugin
 {
-	private static final String LOCK = "Lock slot";
-	private static final String UNLOCK = "Unlock slot";
+	private static final String LOCK = "Lock-slot";
+	private static final String UNLOCK = "Unlock-slot";
 	/** Bank item op 1 is the left-click withdraw at the current quantity setting. */
 	private static final int LEFT_CLICK_OP = 1;
 
